@@ -1,22 +1,22 @@
-#include <iostream>
-#include <GL/freeglut.h>
+#include "bresenham.h"
 
-void Display(void){
-    glClear(GL_DEPTH_BUFFER_BIT|GL_COLOR_BUFFER_BIT);
-
-    glutSwapBuffers();
-}
 
 int main(int argc, char **argv) {
+    init();
+    menu();
+
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowPosition(100, 100);
-    glutInitWindowSize(320, 240);
+    glutInitWindowSize(600, 600);
 
 
-    glutCreateWindow("Bounce");
+    glutCreateWindow("Bresenham algorithm");
 
     glutDisplayFunc(Display);
+    glutReshapeFunc(changeSize);
+
+    timer(0);
     glutMainLoop();
     return 0;
 }

@@ -4,7 +4,7 @@ project(GRAPHICS)
 set(CMAKE_CXX_STANDARD 11)
 
 set(SOURCE_FILES main.cpp)
-add_executable(GRAPHICS ${SOURCE_FILES})
+add_executable(GRAPHICS ${SOURCE_FILES} bresenham.h bresenham.cpp)
 
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)

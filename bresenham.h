@@ -16,7 +16,7 @@ using namespace std;
 class GridQuad {
 public:
     GridQuad(float x, float y, float size);
-    void draw(bool isFilled);
+    void draw(bool isFilled, const GLubyte *color);
 
 private:
     float x, y, size;
@@ -33,11 +33,9 @@ void init(void);
 void drawGrid(void);
 void Display(void);
 
-void line(int x0, int y0, int x1, int y1);
-void circle(int x, int y, int r);
-void ellipse(int x, int y, int a, int b);
+void line(int x0, int y0, int x1, int y1, GLubyte *begin_color, GLubyte *end_color);
 
-void fillQuad(int x, int y);
+void fillQuad(int x, int y, const GLubyte *color);
 void timer(int x);
 
 #endif //GRAPHICS_BRESENHAM_H

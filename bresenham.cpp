@@ -63,10 +63,6 @@ void drawGrid(void) {
 void line(int x0, int y0, int x1, int y1, const GLubyte *begin_color, const GLubyte *end_color) {
     GLubyte cur_color[3] = {begin_color[0], begin_color[1], begin_color[2]};
 
-    const GLubyte dr = end_color[0] - begin_color[0]; // -255
-    const GLubyte dg = end_color[1] - begin_color[1]; //  255
-    const GLubyte db = end_color[2] - begin_color[2]; //  0
-
     bool steep = false;
     if (std::abs(x0 - x1)<std::abs(y0 - y1)) {
         std::swap(x0, y0);
@@ -83,11 +79,14 @@ void line(int x0, int y0, int x1, int y1, const GLubyte *begin_color, const GLub
     float error = 0;
     int y = y0;
 
-    GLubyte red_color_coeff = dr / dx;
-    GLubyte green_color_coeff = dg / dx;
-    GLubyte blue_color_coeff = db / dx;
+    float t_step = 1 / (float)dx;
+    float t = 0;
 
     for (int x = x0; x <= x1; x++) {
+        cur_color[0] = (GLubyte)(begin_color[0] * (1 - t) + end_color[0] * t);
+        cur_color[1] = (GLubyte)(begin_color[1] * (1 - t) + end_color[1] * t);
+        cur_color[2] = (GLubyte)(begin_color[2] * (1 - t) + end_color[2] * t);
+
         if (steep) {
             fillQuad(y, x, cur_color);
         }
@@ -100,9 +99,8 @@ void line(int x0, int y0, int x1, int y1, const GLubyte *begin_color, const GLub
             y += (y1>y0 ? 1 : -1);
             error -= dx *2;
         }
-        cur_color[0] += red_color_coeff;
-        cur_color[1] += green_color_coeff;
-        cur_color[2] += blue_color_coeff;
+
+        t+=t_step;
     }
 }
 
@@ -110,8 +108,8 @@ void line(int x0, int y0, int x1, int y1, const GLubyte *begin_color, const GLub
 void Display(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    const GLubyte begin_color[] = {255, 0, 0};
-    const GLubyte end_color[] = {0, 255, 0};
+    const GLubyte begin_color[] = {0, 255, 0};
+    const GLubyte end_color[] = {255, 0, 0};
     //glColor3f(1, 0, 0);
 
     line(x_0, y_0, x_1, y_1, begin_color, end_color);
